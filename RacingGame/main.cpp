@@ -13,16 +13,16 @@ sf::Vector2f change_direction(sf::Event::KeyEvent key, float& direction)
 	switch (key.code)
 	{
 	case sf::Keyboard::Left :
-		direction = M_PI;
+		direction += 0.0011;
 		break;
 	case sf::Keyboard::Right :
-		direction = 0;
+		direction -= 0.001;
 		break;
 	case sf::Keyboard::Up :
-		direction = 1.5 * M_PI;
+		//direction = 1.5 * M_PI;
 		break;
 	case sf::Keyboard::Down :
-		direction = 0.5 * M_PI;
+		//direction = 0.5 * M_PI;
 		break;
 
 	}
@@ -43,7 +43,7 @@ int main()
 	text.setPosition(20, 20);
 	text.setFillColor(sf::Color::White);
 	text.setString("I CAN DRAW");
-	float pixel_per_second = 40.0;
+	float pixel_per_second = 100.0;
 	std::chrono::duration<float> second = std::chrono::seconds(1);
 	// move 1 pixel every interval
 	std::chrono::duration<float> interval = second / pixel_per_second;
