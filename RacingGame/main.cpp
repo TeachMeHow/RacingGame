@@ -1,42 +1,10 @@
-#define _USE_MATH_DEFINES // for C++  
+#define _USE_MATH_DEFINES // for cmath PI
 #include <SFML/Graphics.hpp>
 #include <chrono>
 #include <cmath>  
 
-sf::Vector2f change_direction(sf::Event::KeyEvent key, float& direction)
-{
-	float x, y;
-	// a^2 + b^2 == 1
-	// direction
-	// angle from 0 to 2p
-	// float angle = direction;
-	switch (key.code)
-	{
-	case sf::Keyboard::Left :
-		direction += 0.0011;
-		break;
-	case sf::Keyboard::Right :
-		direction -= 0.001;
-		break;
-	case sf::Keyboard::Up :
-		//direction = 1.5 * M_PI;
-		break;
-	case sf::Keyboard::Down :
-		//direction = 0.5 * M_PI;
-		break;
-
-	}
-	y = std::sin(direction);
-	x = std::cos(direction);
-	return sf::Vector2f(x, y);
-	
-}
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(600, 600), "Game");
-	sf::Font font;
-	if (!font.loadFromFile("fonts/INVASION2000.ttf"))
-		return 1;
 	sf::Text text;
 	text.setCharacterSize(24);
 	text.setFont(font);
@@ -76,7 +44,7 @@ int main()
 		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Up) \
 		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
-		shift = change_direction(event.key, angle);
+		//shift = change_direction(event.key, angle);
 		// continous movement
 
 		t1 = std::chrono::steady_clock::now();
