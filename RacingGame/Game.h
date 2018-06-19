@@ -3,6 +3,7 @@
 #include "Track.h"
 class Game
 {
+	Track track;
 public:
 	Game();
 	~Game();

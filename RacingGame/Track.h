@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "Car.h"
+#include <SFML/Graphics.hpp>
 class Track
 {
 	Car player;
@@ -17,11 +18,12 @@ class Track
 	};
 	std::vector<TrackSection> map;
 	double total_length;
+	sf::Texture track_texture;
 public:
 	// load track textures
 	Track();
 	~Track();
 	void scroll();
-	void draw();
+	void draw(sf::RenderWindow& window);
 };
 
