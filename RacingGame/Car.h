@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 class Car
 {
 	// in m/s
@@ -13,6 +14,8 @@ class Car
 	double direction = 0;
 	double accelerate(int pedal);
 	double steer(int wheel);
+
+	sf::Texture models;
 public:
 	// load car model
 	Car();

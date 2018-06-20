@@ -4,6 +4,8 @@
 
 Car::Car()
 {
+	if (!models.loadFromFile("graphics/cars.png"))
+		throw "Couldn\'t load image";
 }
 
 
