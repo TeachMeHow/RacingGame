@@ -5,14 +5,59 @@
 
 void Game::handle_event(sf::Event& event)
 {
+	// car update params
+	int pedal = 0, wheel = 0;
 	switch (event.type)
 	{
 	case sf::Event::Closed:
 		window.close();
 		break;
 	case sf::Event::KeyPressed:
-		break;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+			wheel = -1;
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) 
+			wheel = 1;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+			pedal = 1;
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) 
+			pedal = -1;
+			break;
 	}
+	player.update(pedal, wheel);
+}
+
+void Game::draw_debug_info(sf::Font* font)
+{
+	sf::Vector2f position(0.0f, 0.0f);
+	int row_height = 16;
+	int char_size = 14;
+	sf::Text text;
+	text.setFont(*font);
+	text.setCharacterSize(char_size);
+	text.setFillColor(sf::Color::White);
+	text.setOutlineThickness(1);
+	text.setOutlineColor(sf::Color::Black);
+	std::string buffer;
+	buffer = "Speed: " + std::to_string(speed_to_kmh(player.get_speed()));
+	text.setString(buffer);
+	position += sf::Vector2f(0.0f, 0 * row_height);
+	text.setPosition(position);
+	window.draw(text);
+
+	buffer = "Direction: " + std::to_string(player.get_direction());
+	text.setString(buffer);
+	position += sf::Vector2f(0.0f, 1 * float(row_height));
+	text.setPosition(position);
+	window.draw(text);
+
+
+}
+
+int Game::speed_to_kmh(int double_ms)
+{
+	int speed;
+	speed = double_ms * (3600.0f / 1000.0f);
+	return speed;
 }
 
 Game::Game()
@@ -47,6 +92,8 @@ void Game::display()
 		window.clear();
 		window.setView(view);
 		track.draw(window);
+		player.draw(window);
+		draw_debug_info(&font);
 		window.display();
 	}
 	window.close();
