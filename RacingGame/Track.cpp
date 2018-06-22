@@ -33,13 +33,7 @@ Track::Track()
 	total_length = 0;
 	std::for_each(distances.cbegin(), distances.cend(), [&](float n) { total_length += n; });
 
-
-	
-	
-
 	if (!track_texture.loadFromFile("graphics/track_lower.png"))
-		throw "Couldn\'t load texture";
-	if (!image.loadFromFile("graphics/track_lower.png"))
 		throw "Couldn\'t load texture";
 }
 
@@ -51,8 +45,16 @@ Track::~Track()
 void Track::draw(sf::RenderWindow & window)
 {
 	sf::RectangleShape rect(sf::Vector2f(320, 100));
-	sf::IntRect part(160, 0, 320, 100);
+	const int pix_per_meter = 340 / track_width;
+	//
+	sf::IntRect part(160 + int(pix_per_meter * car_offset), 0, 320, 100);
+	rect.setTexture(&track_texture);
 	rect.setTextureRect(part);
 	rect.setPosition(0.0f, 224.0f - 100.0f);
 	window.draw(rect);
+}
+
+void Track::update(const Car & car)
+{
+	
 }

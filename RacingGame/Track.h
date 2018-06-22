@@ -1,4 +1,5 @@
 #pragma once
+#include "Car.h"
 #include <vector>
 #include <SFML/Graphics.hpp>
 class Track
@@ -19,15 +20,15 @@ private:
 	float total_length;
 	// in m
 	float track_width;
-	// car offset from road center
+	// car offset from road center in m
 	float car_offset;
 
 	sf::Texture track_texture;
-	sf::Image image;
 public:
 	// load track textures
 	Track();
 	~Track();
 	void draw(sf::RenderWindow& window);
+	void update(const Car& car);
 };
 

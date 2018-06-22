@@ -92,8 +92,8 @@ void Game::display()
 		window.clear();
 		window.setView(view);
 		track.draw(window);
-		player.draw(window);
-		draw_debug_info(&font);
+		//player.draw(window);
+		//draw_debug_info(&font);
 		window.display();
 	}
 	window.close();
