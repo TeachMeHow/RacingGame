@@ -43,5 +43,7 @@ public:
 	double get_speed();
 	// returns direction in degrees
 	int get_direction();
+	// calculates distance travelled assuming current acceleration and speed, during delta time
+	float distance_delta(float time_delta);
 };
 

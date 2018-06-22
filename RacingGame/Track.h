@@ -24,12 +24,14 @@ private:
 	float car_offset;
 
 	sf::Texture track_texture;
+	Car& player;
 public:
 	// load track textures
-	Track();
+	Track(Car& car);
 	~Track();
 	void draw(sf::RenderWindow& window);
 	// time delta is time since last update
 	void update(float time_delta);
+	float get_car_distance();
 };
 

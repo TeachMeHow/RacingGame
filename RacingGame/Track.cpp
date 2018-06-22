@@ -2,10 +2,11 @@
 #include <fstream>
 
 
-Track::Track()
+Track::Track(Car& car) : player(car)
 {
 	car_distance = 0;
 	car_offset = 0;
+	pos_index = 0;
 	std::ifstream map;
 	map.open("map.txt");
 	if (!map.is_open())
@@ -56,6 +57,28 @@ void Track::draw(sf::RenderWindow & window)
 
 void Track::update(float time_delta)
 {
+	car_distance += player.distance_delta(time_delta);
+	if (car_distance > distances[pos_index])
+	{
+		pos_index++;
+	}
 	float rate = -5.0f / 10.0f;
+	switch (directions[pos_index])
+	{
+	case LEFT:
+		rate = -5.0f / 10.0f;
+		break;
+	case STRAIGHT:
+		rate = 0;
+		break;
+	case RIGHT:
+		rate = -5.0f / 10.0f;
+	}
+
 	car_offset += rate * time_delta;
+}
+
+float Track::get_car_distance()
+{
+	return car_distance;
 }

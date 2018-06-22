@@ -67,3 +67,10 @@ int Car::get_direction()
 {
 	return direction  - 1;
 }
+
+float Car::distance_delta(float time_delta)
+{
+	float distance;
+	distance = speed * time_delta;
+	return distance;
+}
