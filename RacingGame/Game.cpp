@@ -60,6 +60,17 @@ int Game::speed_to_kmh(int double_ms)
 	return speed;
 }
 
+void Game::update(float delta_time)
+{
+	elapsed_time += delta_time;
+	if (elapsed_time > update_time)
+	{
+		track.update(update_time);
+
+		elapsed_time -= update_time;
+	}
+}
+
 Game::Game()
 {
 }
@@ -82,18 +93,26 @@ void Game::display()
 	sf::Font font;
 	if (!font.loadFromFile("fonts/INVASION2000.ttf"))
 		throw "Couldn\'t load font";
+
+	float delta_time;
+	elapsed_time = 0.0f;
+	clock.restart();
 	while (window.isOpen())
 	{
+		delta_time = clock.restart().asSeconds();
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
 			handle_event(event);
 		}
+
+		update(delta_time);
+
 		window.clear();
 		window.setView(view);
 		track.draw(window);
-		//player.draw(window);
-		//draw_debug_info(&font);
+		player.draw(window);
+		draw_debug_info(&font);
 		window.display();
 	}
 	window.close();

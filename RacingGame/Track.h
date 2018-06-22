@@ -29,6 +29,7 @@ public:
 	Track();
 	~Track();
 	void draw(sf::RenderWindow& window);
-	void update(const Car& car);
+	// time delta is time since last update
+	void update(float time_delta);
 };
 

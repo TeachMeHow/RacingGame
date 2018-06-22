@@ -54,7 +54,8 @@ void Track::draw(sf::RenderWindow & window)
 	window.draw(rect);
 }
 
-void Track::update(const Car & car)
+void Track::update(float time_delta)
 {
-	
+	float rate = -5.0f / 10.0f;
+	car_offset += rate * time_delta;
 }
