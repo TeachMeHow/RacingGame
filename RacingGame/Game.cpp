@@ -3,27 +3,30 @@
 
 
 
-void Game::handle_event(sf::Event& event)
+void Game::handle_event(float time_delta, sf::Event& event)
 {
 	// car update params
-	int pedal = 0, wheel = 0;
+	int pedal = 0;
+	int wheel = 0;
+
 	switch (event.type)
 	{
 	case sf::Event::Closed:
 		window.close();
 		break;
 	case sf::Event::KeyPressed:
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-			player.debug_set_direction(-1);
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-			player.debug_set_direction(1);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-			player.debug_set_speed(10);
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) 
-			player.debug_set_speed(0);
+			pedal = 1;
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+			pedal = -1;
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+			wheel = -1;
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+			wheel = 1;
 		break;
 	}
-	//player.update(pedal, wheel);
+	player.control(pedal, wheel);
 }
 
 void Game::draw_debug_info(sf::Font* font)
@@ -77,13 +80,13 @@ int Game::speed_to_kmh(int double_ms)
 	return speed;
 }
 
-void Game::update(float delta_time)
+void Game::update(float time_delta)
 {
-	elapsed_time += delta_time;
+	elapsed_time += time_delta;
 	if (elapsed_time > update_time)
 	{
-		track.update(update_time);
-
+		player.update(elapsed_time);
+		track.update(elapsed_time);
 		elapsed_time -= update_time;
 	}
 }
@@ -112,19 +115,19 @@ void Game::display()
 	if (!font.loadFromFile("fonts/PressStart2P.ttf"))
 		throw "Couldn\'t load font";
 
-	float delta_time;
+	float time_delta;
 	elapsed_time = 0.0f;
 	clock.restart();
 	while (window.isOpen())
 	{
-		delta_time = clock.restart().asSeconds();
+		time_delta = clock.restart().asSeconds();
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-			handle_event(event);
+			handle_event(time_delta, event);
 		}
 
-		update(delta_time);
+		update(time_delta);
 
 		window.clear();
 		window.setView(view);

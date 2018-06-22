@@ -4,26 +4,24 @@ class Car
 {
 private:
 	// in m/s
-	const double max_speed = 150 * 1000 / 3600.0;
+	const float max_speed = 150 * 1000 / 3600.0;
 	// vertical speed when turning in m/s
-	const double v_speed = 3;
+	const float v_speed = 3;
 	// in m/s - gas
-	const double acceleration = 4;
+	const float acceleration = 4;
 	// in m/s - braking
-	const double deceleration = 8;
+	const float deceleration = 8;
 	//in m/s
-	double current_speed = 0;
+	float current_speed;
+	// -1 brake, 0 nothing, 1 gas
+	int pedal;
+	
 	// car steers in direction
 	enum Direction { LEFT = -1, STRAIGHT = 0, RIGHT = 1 } direction;
 
-	sf::Clock clock;
 	sf::Texture models;
 
 private:
-
-	void accelerate(float time_delta);
-	void brake(float time_delta);
-	double steer(int wheel);
 public:
 	// load car model
 	Car();
@@ -36,7 +34,10 @@ public:
 	// -1 - left;
 	// 0 - nothing
 	// 1 - right
-	void update(int pedal, int wheel);
+	// manipulate controls of the car
+	void control(int pedal, int wheel);
+	// update car state based on controls and time delta
+	void update(float time_delta);
 	// display car, depends on the direction
 	void draw(sf::RenderWindow& window);
 	// returns speed in m/s

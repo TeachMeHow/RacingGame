@@ -13,7 +13,7 @@ private:
 	float elapsed_time;
 	sf::Clock clock;
 private:
-	void handle_event(sf::Event& event);
+	void handle_event(float time_delta, sf::Event& event);
 	void draw_debug_info(sf::Font* font);
 	int speed_to_kmh(int double_ms);
 	void update(float delta_time);
