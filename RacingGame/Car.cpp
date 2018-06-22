@@ -47,6 +47,13 @@ Car::~Car()
 }
 
 
+void Car::collide(float time_delta)
+{
+	float speed_delta = deceleration * time_delta;
+	if ((current_speed - speed_delta) < 2)
+		current_speed -= speed_delta;
+}
+
 void Car::draw(sf::RenderWindow & window)
 {
 	// calculate appropriate texture based on direction

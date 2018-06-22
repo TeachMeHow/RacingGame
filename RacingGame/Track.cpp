@@ -64,14 +64,24 @@ void Track::update(float time_delta)
 		pos_index++;
 	}
 
-	float rate = 0;
+	float rate = (2.5f / 41.0f) * player.get_speed();
 	if (directions[pos_index] == LEFT)
-		rate = -2.5;
-	else if (directions[pos_index] == RIGHT)
-		rate = 2.5;
+		rate = -rate;
+	else if (directions[pos_index] == STRAIGHT)
+		rate = 0;
 	float dist_1 = rate * time_delta;
 	float dist_2 = player.offset_delta(time_delta);
 	car_offset += dist_1 + dist_2;
+
+	// collision
+	float left_boundary, right_boundary;
+	left_boundary = -track_width / 2;
+	right_boundary = track_width / 2;
+	// how much the car slows down
+	if (car_offset < left_boundary || car_offset > right_boundary)
+	{
+		player.collide(time_delta);
+	}
 }
 
 float Track::get_car_distance()

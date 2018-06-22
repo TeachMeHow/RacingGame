@@ -39,6 +39,7 @@ public:
 	// update car state based on controls and time delta
 	void update(float time_delta);
 	// display car, depends on the direction
+	void collide(float time_delta);
 	void draw(sf::RenderWindow& window);
 	// returns speed in m/s
 	double get_speed();

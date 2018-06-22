@@ -39,7 +39,7 @@ void Game::draw_debug_info(sf::Font* font)
 	text.setCharacterSize(char_size);
 	text.setFillColor(sf::Color::White);
 	std::string buffer;
-	buffer = "Speed: " + std::to_string(speed_to_kmh(player.get_speed()));
+	buffer = "Speed: " + std::to_string(speed_to_kmh(player.get_speed())) + " km/h";
 	text.setString(buffer);
 	text.setPosition(position);
 	window.draw(text);
