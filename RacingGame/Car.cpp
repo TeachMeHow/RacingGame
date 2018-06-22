@@ -6,18 +6,18 @@ void Car::accelerate(float time_delta)
 {
 	double speed_delta;
 	speed_delta = acceleration * time_delta;
-	speed += speed_delta;
-	if (speed > max_speed)
-		speed = max_speed;
+	current_speed += speed_delta;
+	if (current_speed > max_speed)
+		current_speed = max_speed;
 }
 
 void Car::brake(float time_delta)
 {
 	double speed_delta;
 	speed_delta = deceleration * time_delta;
-	speed -= speed_delta;
-	if (speed < 0)
-		speed = 0;
+	current_speed -= speed_delta;
+	if (current_speed < 0)
+		current_speed = 0;
 }
 
 double Car::steer(int wheel)
@@ -60,17 +60,31 @@ void Car::draw(sf::RenderWindow & window)
 
 double Car::get_speed()
 {
-	return speed;
+	return current_speed;
 }
 
 int Car::get_direction()
 {
-	return direction  - 1;
+	return direction;
 }
 
 float Car::distance_delta(float time_delta)
 {
 	float distance;
-	distance = speed * time_delta;
+	distance = current_speed * time_delta;
 	return distance;
+}
+
+float Car::offset_delta(float time_delta)
+{
+	float offset;
+	switch (direction)
+	{
+	case STRAIGHT: offset = 0;
+		break;
+	case LEFT: offset = -v_speed * time_delta;
+		break;
+	case RIGHT: offset = v_speed * time_delta;
+	}
+	return offset;
 }

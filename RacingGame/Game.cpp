@@ -1,6 +1,5 @@
 #include "Game.h"
-#include <sstream> // stringstream
-#include <iomanip>
+#include <string>
 
 
 
@@ -15,16 +14,16 @@ void Game::handle_event(sf::Event& event)
 		break;
 	case sf::Event::KeyPressed:
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-			wheel = -1;
-		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) 
-			wheel = 1;
+			player.debug_set_direction(-1);
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+			player.debug_set_direction(1);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-			pedal = 1;
+			player.debug_set_speed(10);
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) 
-			pedal = -1;
-			break;
+			player.debug_set_speed(0);
+		break;
 	}
-	player.update(pedal, wheel);
+	//player.update(pedal, wheel);
 }
 
 void Game::draw_debug_info(sf::Font* font)
@@ -39,19 +38,34 @@ void Game::draw_debug_info(sf::Font* font)
 	std::string buffer;
 	buffer = "Speed: " + std::to_string(speed_to_kmh(player.get_speed()));
 	text.setString(buffer);
-	position += sf::Vector2f(0.0f, 0 * row_height);
+	text.setPosition(position);
+	window.draw(text);
+
+	std::string str;
+	switch (track.debug_get_turn())
+	{
+	case 0: str = "left";
+		break;
+	case 1: str = "straight";
+		break;
+	case 2: str = "right";
+		break;
+	}
+	buffer = "Turn: " + str;
+	text.setString(buffer);
+	position += sf::Vector2f(0.0f, float(row_height));
 	text.setPosition(position);
 	window.draw(text);
 
 	buffer = "Direction: " + std::to_string(player.get_direction());
 	text.setString(buffer);
-	position += sf::Vector2f(0.0f, 1 * float(row_height));
+	position += sf::Vector2f(0.0f, float(row_height));
 	text.setPosition(position);
 	window.draw(text);
 
 	buffer = "Distance: " + std::to_string(int(track.get_car_distance())) + "m";
 	text.setString(buffer);
-	position += sf::Vector2f(0.0f, 2 * float(row_height));
+	position += sf::Vector2f(0.0f, float(row_height));
 	text.setPosition(position);
 	window.draw(text);
 }

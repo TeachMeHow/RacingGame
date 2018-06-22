@@ -21,6 +21,7 @@ Track::Track(Car& car) : player(car)
 		map >> i;
 		map >> dist;
 		map >> dir;
+		if (!distances.empty()) dist += distances.back();
 		distances.push_back(dist);
 		switch (dir)
 		{
@@ -62,20 +63,15 @@ void Track::update(float time_delta)
 	{
 		pos_index++;
 	}
-	float rate = -5.0f / 10.0f;
-	switch (directions[pos_index])
-	{
-	case LEFT:
-		rate = -5.0f / 10.0f;
-		break;
-	case STRAIGHT:
-		rate = 0;
-		break;
-	case RIGHT:
-		rate = -5.0f / 10.0f;
-	}
 
-	car_offset += rate * time_delta;
+	float rate = 0;
+	if (directions[pos_index] == LEFT)
+		rate = -2.5;
+	else if (directions[pos_index] == RIGHT)
+		rate = 2.5;
+	float dist_1 = rate * time_delta;
+	float dist_2 = player.offset_delta(time_delta);
+	car_offset += dist_1 + dist_2;
 }
 
 float Track::get_car_distance()
