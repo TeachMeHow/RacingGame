@@ -42,26 +42,13 @@ public:
 	void collide(float time_delta);
 	void draw(sf::RenderWindow& window);
 	// returns speed in m/s
-	double get_speed();
+	float get_speed();
 	// returns direction - 'L', 'S' or 'R'
 	int get_direction();
 	// calculates distance travelled assuming current acceleration and speed, during delta time
 	float distance_delta(float time_delta);
 	// distance travelled either left(-), straight(0) or right(+), vertically, during delta time
 	float offset_delta(float time_delta);
-	void debug_set_speed(float speed) { current_speed = speed; };
-	void debug_set_direction(int direction)
-	{
-		switch (direction)
-		{
-		case -1: this->direction = LEFT;
-			break;
-		case 0: this->direction = STRAIGHT;
-			break;
-		case 1: this->direction = RIGHT;
-			break;
-		}
-	}
 
 };
 

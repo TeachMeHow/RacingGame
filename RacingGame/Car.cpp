@@ -17,16 +17,15 @@ void Car::control(int pedal, int wheel)
 
 void Car::update(float time_delta)
 {
+	float speed_delta;
 	if (pedal == 1)
 	{
-		float speed_delta;
 		speed_delta = acceleration * time_delta;
 		current_speed += speed_delta;
 		if (current_speed > max_speed) current_speed = max_speed;
 	}
 	else if (pedal == -1)
 	{
-		float speed_delta;
 		speed_delta = deceleration * time_delta;
 		current_speed -= speed_delta;
 		if (current_speed < 0) current_speed = 0;
@@ -50,18 +49,31 @@ Car::~Car()
 void Car::collide(float time_delta)
 {
 	float speed_delta = deceleration * time_delta;
-	if ((current_speed - speed_delta) < 2)
+	if ((current_speed - speed_delta) > 2)
 		current_speed -= speed_delta;
 }
 
 void Car::draw(sf::RenderWindow & window)
 {
-	// calculate appropriate texture based on direction
-	sf::RectangleShape body;
-	sf::IntRect rect;
+	int row = 0;
+	switch (direction)
+	{
+	case LEFT: row = 1;
+		break;
+	case RIGHT: row = 2;
+		break;
+	}
+	sf::IntRect part(0, row * 54, 110, 54);
+	sf::RectangleShape rect;
+	rect.setSize(sf::Vector2f(110.0f, 54.0f));
+	rect.setTexture(&models);
+	rect.setTextureRect(part);
+	sf::Vector2f pos(window.getView().getCenter().x - (110.0f / 2.0f), window.getView().getSize().y - 54.0f);
+	rect.setPosition(pos);
+	window.draw(rect);
 }
 
-double Car::get_speed()
+float Car::get_speed()
 {
 	return current_speed;
 }
