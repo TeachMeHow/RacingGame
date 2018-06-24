@@ -56,6 +56,9 @@ public:
 	float distance_delta(float time_delta);
 	// distance travelled either left(-), straight(0) or right(+), vertically, during delta time
 	float offset_delta(float time_delta);
+public:
+	// car width in px
+	const int car_model_width = 50;
 
 };
 

@@ -18,12 +18,14 @@ void Car::control(int pedal, int wheel)
 void Car::update(float time_delta)
 {
 	float speed_delta;
+	// if gas pedal was pressed, acccelerate
 	if (pedal == 1)
 	{
 		speed_delta = acceleration * time_delta;
 		current_speed += speed_delta;
 		if (current_speed > max_speed) current_speed = max_speed;
 	}
+	// if brake was pressed, decelerate
 	else if (pedal == -1)
 	{
 		speed_delta = deceleration * time_delta;
@@ -36,6 +38,7 @@ Car::Car()
 {
 	current_speed = 0;
 	pedal = 0;
+	direction = STRAIGHT;
 	if (!models.loadFromFile("graphics/cars.png"))
 		throw "Couldn\'t load image";
 }
@@ -49,7 +52,8 @@ Car::~Car()
 void Car::collide(float time_delta)
 {
 	float speed_delta = deceleration * time_delta;
-	if ((current_speed - speed_delta) > 2)
+	// slow down down to min. 4 m/s
+	if ((current_speed - speed_delta) > 4)
 		current_speed -= speed_delta;
 }
 
@@ -92,14 +96,15 @@ float Car::distance_delta(float time_delta)
 
 float Car::offset_delta(float time_delta)
 {
+	float v_velocity = 5 * current_speed / max_speed;
 	float offset;
 	switch (direction)
 	{
 	case STRAIGHT: offset = 0;
 		break;
-	case LEFT: offset = -v_speed * time_delta;
+	case LEFT: offset = -v_velocity * time_delta;
 		break;
-	case RIGHT: offset = v_speed * time_delta;
+	case RIGHT: offset = v_velocity * time_delta;
 	}
 	return offset;
 }

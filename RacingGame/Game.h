@@ -1,4 +1,4 @@
-
+// Game manages player's car and track - draws, updates and displays both
 //
 // Szymon Cichy 235093
 // June 2018
