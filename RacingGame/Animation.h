@@ -3,9 +3,9 @@
 class Animation
 {
 public:
-	Animation(sf::Texture* texture, sf::Vector2u image_count, float switch_time);
+	Animation(sf::Texture* texture, sf::Vector2u image_count);
 	~Animation();
-	void update(int row, float delta_time);
+	void update(int row, float delta_time, float switch_time, bool invert);
 
 public:
 	sf::IntRect part;

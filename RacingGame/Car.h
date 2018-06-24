@@ -4,11 +4,11 @@ class Car
 {
 private:
 	// in m/s
-	const float max_speed = 150 * 1000 / 3600.0;
+	const float max_speed = 170 * 1000 / 3600.0;
 	// vertical speed when turning in m/s
 	const float v_speed = 3;
 	// in m/s - gas
-	const float acceleration = 4;
+	const float acceleration = 6;
 	// in m/s - braking
 	const float deceleration = 8;
 	//in m/s

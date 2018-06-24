@@ -1,5 +1,6 @@
 #pragma once
 #include "Car.h"
+#include "Animation.h"
 #include <vector>
 #include <SFML/Graphics.hpp>
 class Track
@@ -24,6 +25,7 @@ private:
 	float car_offset;
 
 	sf::Texture track_texture;
+	Animation track_animation;
 	Car& player;
 public:
 	// load track textures

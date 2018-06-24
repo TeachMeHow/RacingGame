@@ -2,7 +2,7 @@
 #include <fstream>
 
 
-Track::Track(Car& car) : player(car)
+Track::Track(Car& car) : player(car), track_animation(&track_texture, sf::Vector2u(2, 2))
 {
 	car_distance = 0;
 	car_offset = 0;
@@ -13,7 +13,7 @@ Track::Track(Car& car) : player(car)
 		throw "Couldn't load the map";
 	int i;
 	char dir;
-	float dist; 
+	float dist;
 	// TODO reads last twice
 	map >> track_width;
 	while (!map.eof())
@@ -35,8 +35,10 @@ Track::Track(Car& car) : player(car)
 	total_length = 0;
 	std::for_each(distances.cbegin(), distances.cend(), [&](float n) { total_length += n; });
 
-	if (!track_texture.loadFromFile("graphics/track_lower.png"))
+	if (!track_texture.loadFromFile("graphics/track_animation.png"))
 		throw "Couldn\'t load texture";
+	track_animation = Animation(&track_texture, sf::Vector2u(2, 2));
+	track_animation.part.width -= 320;
 }
 
 
@@ -47,11 +49,11 @@ Track::~Track()
 void Track::draw(sf::RenderWindow & window)
 {
 	sf::RectangleShape rect(sf::Vector2f(320, 100));
-	const int pix_per_meter = 340 / track_width;
+	const float pix_per_meter = 340.0f / float(track_width);
 	//
-	sf::IntRect part(160 + int(pix_per_meter * car_offset), 0, 320, 100);
+	//sf::IntRect part(160 + int(pix_per_meter * car_offset), 0, 320, 100);
 	rect.setTexture(&track_texture);
-	rect.setTextureRect(part);
+	rect.setTextureRect(track_animation.part);
 	rect.setPosition(0.0f, 224.0f - 100.0f);
 	window.draw(rect);
 }
@@ -65,7 +67,7 @@ void Track::update(float time_delta)
 	}
 
 	float rate = (2.5f / 41.0f) * player.get_speed();
-	if (directions[pos_index] == LEFT)
+	if (directions[pos_index] == RIGHT)
 		rate = -rate;
 	else if (directions[pos_index] == STRAIGHT)
 		rate = 0;
@@ -82,6 +84,27 @@ void Track::update(float time_delta)
 	{
 		player.collide(time_delta);
 	}
+
+	int row;
+	if (directions[pos_index] == STRAIGHT)
+		row = 0;
+	else row = 1;
+
+	bool is_left = directions[pos_index] == LEFT ? true : false;
+	// 1 switch is 2 m
+	// switch every 2[m] / speed[m/s] seconds
+	float switch_time = 2.0f / player.get_speed();
+
+	// update track animation with some changes
+	track_animation.part.width = 640;
+	track_animation.update(row, time_delta, switch_time, is_left);
+	track_animation.part.width = is_left ? -320 : 320;
+	float offset;
+	const float pix_per_meter = 340.0f / float(track_width);
+	offset = is_left ? -(160.0f + car_offset * pix_per_meter) : (160.0f + car_offset * pix_per_meter);
+	//offset += car_offset * pix_per_meter;
+	track_animation.part.left += offset;
+
 }
 
 float Track::get_car_distance()
