@@ -1,9 +1,11 @@
-#define _USE_MATH_DEFINES // for cmath PI
+// main file, launches the game
+//
+// Szymon Cichy 235093
+// June 2018
+
 #include <SFML/Graphics.hpp>
-#include <chrono>
-#include <cmath>  
-#include "Game.h"	
 #include <iostream>
+#include "Game.h"	
 
 int main()
 {

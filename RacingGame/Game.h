@@ -1,7 +1,12 @@
+
+//
+// Szymon Cichy 235093
+// June 2018
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Track.h"
 #include "Car.h"
+
 class Game
 {
 private:

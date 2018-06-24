@@ -1,5 +1,11 @@
+// Car class is made to represent the car that is being controlled by a player
+//
+// Szymon Cichy 235093
+// June 2018
+
 #pragma once
 #include <SFML/Graphics.hpp>
+
 class Car
 {
 private:

@@ -1,4 +1,5 @@
 // Track class represents road a car is travelling on
+// Track map is described in a text file map.txt
 // Track is described by length, width, turns, positions of cars that are on it
 // Track can be drawn on the screen, reset when it reaches the end and should be updated
 //
