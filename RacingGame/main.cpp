@@ -1,12 +1,19 @@
-#define _USE_MATH_DEFINES // for cmath PI
+// main file, launches the game
+//
+// Szymon Cichy 235093
+// June 2018
+
 #include <SFML/Graphics.hpp>
-#include <chrono>
-#include <cmath>  
+#include <iostream>
 #include "Game.h"	
 
 int main()
 {
-	Game game;
-	game.display();
+	try	{
+		Game game;
+		game.display();
+	} catch (const char* msg) {
+		std::cerr << "Game couldn't start:\n" << msg;
+	}
 	return 0;
 }
