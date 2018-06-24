@@ -31,19 +31,24 @@ void Game::handle_event(float time_delta, sf::Event& event)
 
 void Game::draw_debug_info(sf::Font* font)
 {
-	sf::Vector2f position(0.0f, 0.0f);
+	// origin and positioning
+	sf::Vector2f origin(0.0f, 0.0f);
 	int row_height = 12;
+	// text font and style
 	int char_size = 10;
 	sf::Text text;
 	text.setFont(*font);
 	text.setCharacterSize(char_size);
 	text.setFillColor(sf::Color::White);
 	std::string buffer;
+
+	// speed
 	buffer = "Speed: " + std::to_string(speed_to_kmh(player.get_speed())) + " km/h";
 	text.setString(buffer);
-	text.setPosition(position);
+	text.setPosition(origin);
 	window.draw(text);
 
+	// track turn
 	std::string str;
 	switch (track.debug_get_turn())
 	{
@@ -56,20 +61,22 @@ void Game::draw_debug_info(sf::Font* font)
 	}
 	buffer = "Turn: " + str;
 	text.setString(buffer);
-	position += sf::Vector2f(0.0f, float(row_height));
-	text.setPosition(position);
+	origin += sf::Vector2f(0.0f, float(row_height));
+	text.setPosition(origin);
 	window.draw(text);
 
+	// Direction the car is steering in
 	buffer = "Direction: " + std::to_string(player.get_direction());
 	text.setString(buffer);
-	position += sf::Vector2f(0.0f, float(row_height));
-	text.setPosition(position);
+	origin += sf::Vector2f(0.0f, float(row_height));
+	text.setPosition(origin);
 	window.draw(text);
 
+	// Car position on the track
 	buffer = "Distance: " + std::to_string(int(track.get_car_distance())) + "m";
 	text.setString(buffer);
-	position += sf::Vector2f(0.0f, float(row_height));
-	text.setPosition(position);
+	origin += sf::Vector2f(0.0f, float(row_height));
+	text.setPosition(origin);
 	window.draw(text);
 }
 
@@ -104,9 +111,10 @@ void Game::display()
 {
 	int w_height = 720;
 	// width / height
-	double aspect_ratio = 320.0f / 224.0f;
+	float aspect_ratio = 320.0f / 224.0f;
 	int w_width = w_height * aspect_ratio;
 	window.create(sf::VideoMode(w_width, w_height), "Game");
+	// view with the same size as original Outrun
 	sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(320.0f , 224.0f));
 	sf::Vector2f screen_center(320 / 2.0f, 224 / 2.0f);
 	view.setCenter(screen_center);
@@ -129,7 +137,7 @@ void Game::display()
 
 		update(time_delta);
 
-		window.clear();
+		window.clear(sf::Color::Blue);
 		window.setView(view);
 		track.draw(window);
 		player.draw(window);

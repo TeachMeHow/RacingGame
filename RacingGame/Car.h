@@ -38,8 +38,9 @@ public:
 	void control(int pedal, int wheel);
 	// update car state based on controls and time delta
 	void update(float time_delta);
-	// display car, depends on the direction
+	// collide with an object
 	void collide(float time_delta);
+	// draw car model
 	void draw(sf::RenderWindow& window);
 	// returns speed in m/s
 	float get_speed();

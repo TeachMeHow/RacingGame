@@ -1,3 +1,9 @@
+// Class written with help from a friendly youtuber
+// https://www.youtube.com/channel/UC8C7ncaMYnXyu-pRU0S9FLg
+// with some modification ( animation speed is modifiable )
+//
+// Szymon Cichy 235093
+// June 2018
 #pragma once
 #include <SFML/Graphics.hpp>
 class Animation

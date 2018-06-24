@@ -3,10 +3,15 @@
 #include <chrono>
 #include <cmath>  
 #include "Game.h"	
+#include <iostream>
 
 int main()
 {
-	Game game;
-	game.display();
+	try	{
+		Game game;
+		game.display();
+	} catch (const char* msg) {
+		std::cerr << "Game couldn't start:\n" << msg;
+	}
 	return 0;
 }

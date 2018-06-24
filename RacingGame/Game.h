@@ -5,6 +5,7 @@
 class Game
 {
 private:
+	// player's car
 	Car player;
 	Track track;
 	sf::RenderWindow window;

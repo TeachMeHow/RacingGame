@@ -1,6 +1,5 @@
 #include "Animation.h"
 
-
 Animation::Animation(sf::Texture * texture, sf::Vector2u image_count)
 {
 	this->image_count = image_count;

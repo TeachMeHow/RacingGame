@@ -2,15 +2,13 @@
 #include <fstream>
 
 
-Track::Track(Car& car) : player(car), track_animation(&track_texture, sf::Vector2u(2, 2))
+void Track::read_map(const char * filename)
 {
-	car_distance = 0;
-	car_offset = 0;
-	pos_index = 0;
 	std::ifstream map;
-	map.open("map.txt");
+	map.open(filename);
 	if (!map.is_open())
 		throw "Couldn't load the map";
+
 	int i;
 	char dir;
 	float dist;
@@ -34,6 +32,22 @@ Track::Track(Car& car) : player(car), track_animation(&track_texture, sf::Vector
 	}
 	total_length = 0;
 	std::for_each(distances.cbegin(), distances.cend(), [&](float n) { total_length += n; });
+}
+
+void Track::reset_track()
+{
+	car_position = 0;
+	pos_index = 0;
+}
+
+Track::Track(Car& car) : player(car), track_animation(&track_texture, sf::Vector2u(2, 2))
+{
+	car_position = 0;
+	car_offset = 0;
+	pos_index = 0;
+
+	read_map("map.txt");
+	
 
 	if (!track_texture.loadFromFile("graphics/track_animation.png"))
 		throw "Couldn\'t load texture";
@@ -60,8 +74,8 @@ void Track::draw(sf::RenderWindow & window)
 
 void Track::update(float time_delta)
 {
-	car_distance += player.distance_delta(time_delta);
-	if (car_distance > distances[pos_index])
+	car_position += player.distance_delta(time_delta);
+	if (car_position > distances[pos_index])
 	{
 		pos_index++;
 	}
@@ -105,9 +119,4 @@ void Track::update(float time_delta)
 	//offset += car_offset * pix_per_meter;
 	track_animation.part.left += offset;
 
-}
-
-float Track::get_car_distance()
-{
-	return car_distance;
 }
